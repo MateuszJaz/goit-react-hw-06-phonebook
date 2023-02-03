@@ -1,0 +1,26 @@
+import { createReducer } from '@reduxjs/toolkit';
+import { addNewContact, deleteContact, setFilter } from './actions';
+
+const savedContacts = localStorage.getItem('savedContacts');
+
+const contactsInitialState = JSON.parse(savedContacts) || [
+  { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+  { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+  { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+  { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+  { id: 'id-5', name: 'Memory Five', number: '555-555-555' },
+];
+const filterInitialState = '';
+
+export const contactsReducer = createReducer(contactsInitialState, {
+  [addNewContact]: (state, action) => {
+    return [...state, action.payload];
+  },
+  [deleteContact]: (state, action) => {
+    return state.filter(contact => contact.id !== action.payload);
+  },
+});
+
+export const filterReducer = createReducer(filterInitialState, {
+  [setFilter]: (state, action) => (state = action.payload),
+});

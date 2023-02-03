@@ -1,11 +1,43 @@
-import PropTypes from 'prop-types';
 import style from './Contacts.module.css';
+import { getFilterValue, getContacts } from 'redux/selectors';
+import { useSelector, useDispatch } from 'react-redux';
+import { deleteContact } from 'redux/actions';
 
-const ContactList = ({ children }) => {
-  return <ul className={style.contactsList}>{children}</ul>;
+const ContactList = () => {
+  const contacts = useSelector(getContacts);
+  const filter = useSelector(getFilterValue);
+  const dispatch = useDispatch();
+
+  const filteredContacts = contacts.filter(
+    contact =>
+      contact.name.toLowerCase().includes(filter.toLowerCase()) ||
+      contact.number.replace(/-|\s/g, '').includes(filter.replace(/-|\s/g, ''))
+  );
+
+  const handleDelete = idToDelete => {
+    dispatch(deleteContact(idToDelete));
+  };
+
+  return filteredContacts.length > 0 ? (
+    <ul className={style.ContactList}>
+      {filteredContacts.map(({ id, name, number }) => {
+        return (
+          <li className={style.contactsItem} key={id}>
+            {name}: {number}
+            <button
+              className={style.contactBtn}
+              type="submit"
+              onClick={() => handleDelete(id)}
+            >
+              Delete
+            </button>
+          </li>
+        );
+      })}
+    </ul>
+  ) : (
+    <p>Nothing found.</p>
+  );
 };
 
-ContactList.propTypes = {
-  children: PropTypes.element.isRequired,
-};
 export default ContactList;
