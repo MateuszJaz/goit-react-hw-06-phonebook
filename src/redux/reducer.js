@@ -3,7 +3,6 @@ import { addNewContact, deleteContact, setFilter } from './actions';
 
 let savedContacts = localStorage.getItem('savedContacts');
 let contactsInitialState;
-console.log(savedContacts);
 
 if (savedContacts === null) {
   contactsInitialState = [
