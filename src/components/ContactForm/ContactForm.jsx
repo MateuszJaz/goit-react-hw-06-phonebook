@@ -26,7 +26,6 @@ const ContactForm = () => {
       if (name.toLowerCase() === toLowerCase) {
         alert(`${name} is already in contacts`);
         nameOntheList = true;
-        form.reset();
       }
     });
 

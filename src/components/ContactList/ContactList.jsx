@@ -36,7 +36,7 @@ const ContactList = () => {
       })}
     </ul>
   ) : (
-    <p>Nothing found.</p>
+    <p>No contacts.</p>
   );
 };
 
